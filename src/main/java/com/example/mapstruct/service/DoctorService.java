@@ -7,11 +7,15 @@ import com.example.mapstruct.mapper.DoctorMapper;
 import com.example.mapstruct.repository.DoctorRepository;
 import lombok.AllArgsConstructor;
 import lombok.var;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,14 +26,28 @@ public class DoctorService {
 	private final DoctorRepository doctorRepository;
 	private final DoctorMapper doctorMapper;
 
-	public Doctor findByIdAndDeletedFalse(long id) {
-		return doctorRepository.findByIdAndDeletedFalse(id).orElseThrow(RuntimeException::new);
-	}
 
-	public Doctor save(DoctorRequestDto doctorRequestDto) {
+    @Cacheable(value = "doctorCache", key = "#id")
+    public Doctor findByIdAndDeletedFalseCacheNotation(Long id) {
+        return doctorRepository.findByIdAndDeletedFalse(id).orElseThrow(RuntimeException::new);
+    }
+    @Transactional
+    @CacheEvict(value = "doctorCache", key = "#id")
+    public void deleteCacheNotation(Long id) {
+        doctorRepository.findByIdAndDeletedFalse(id).ifPresent(doctor -> {
+            doctor.setDeleted(true);
+            doctorRepository.save(doctor);
+        });
+    }
+    public Doctor findByIdAndDeletedFalse(Long id) {
+        return doctorRepository.findByIdAndDeletedFalse(id).orElseThrow(RuntimeException::new);
+    }
+    @Transactional
+    public Doctor save(DoctorRequestDto doctorRequestDto) {
 		return doctorRepository.save(doctorMapper.toEntity(doctorRequestDto));
 	}
 
+    @Transactional
 	public Doctor update(DoctorRequestDto requestDto) {
         var doctor= doctorRepository.findByIdAndDeletedFalse(requestDto.getId()).orElseThrow(RuntimeException::new);
         doctorMapper.updateEntity(doctor,requestDto);
@@ -59,5 +77,11 @@ public class DoctorService {
         }
         return doctorRepository.findAllByNameList(Sort.by(direction, sortingName),name);
     }
-
+    @Transactional
+    public void delete(Long id) {
+        doctorRepository.findByIdAndDeletedFalse(id).ifPresent(doctor -> {
+            doctor.setDeleted(true);
+            doctorRepository.save(doctor);
+        });
+    }
 }

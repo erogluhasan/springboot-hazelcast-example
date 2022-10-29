@@ -20,7 +20,7 @@ public class HazelcastConfig {
         config.setInstanceName("hazelcast-instance")
                 .addMapConfig(
                         new MapConfig()
-                                .setName("hazelcastMap")
+                                .setName("doctorCache")
                                 .setMaxSizeConfig(new MaxSizeConfig(200, MaxSizeConfig.MaxSizePolicy.FREE_HEAP_SIZE))
                                 .setEvictionPolicy(EvictionPolicy.LRU)
                                 .setTimeToLiveSeconds(-1));

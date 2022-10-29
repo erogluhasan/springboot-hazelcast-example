@@ -5,6 +5,7 @@ import com.example.mapstruct.dto.DoctorResponseDto;
 import com.example.mapstruct.dto.ProfessionResponseDto;
 import com.example.mapstruct.mapper.DoctorMapper;
 import com.example.mapstruct.service.DoctorService;
+import com.hazelcast.core.HazelcastInstance;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -25,6 +27,7 @@ public class DoctorController {
 
     DoctorService doctorService;
     DoctorMapper doctorMapper;
+    HazelcastInstance hazelcastInstance;
 
     // -------------------Retrieve All Doctors---------------------------------------------
 
@@ -49,27 +52,65 @@ public class DoctorController {
 	// -------------------Retrieve Single Doctor------------------------------------------
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/v1/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DoctorResponseDto> getDoctoCacheNotation(@PathVariable("id") long id) {
+        return new ResponseEntity<DoctorResponseDto>(doctorMapper.toDto(doctorService.findByIdAndDeletedFalseCacheNotation(id)), HttpStatus.OK);
+	}
+	// ------------------- Delete a  Doctor-----------------------------------------
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/delete/v1/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> deleteDoctorCacheNotation(@PathVariable("id") long id) {
+		doctorService.delete(id);
+		return new ResponseEntity<ProfessionResponseDto>(HttpStatus.OK);
+	}
+
+
+	// -------------------Retrieve Single Doctor------------------------------------------
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DoctorResponseDto> getDoctor(@PathVariable("id") long id) {
-        return new ResponseEntity<DoctorResponseDto>(doctorMapper.toDto(doctorService.findByIdAndDeletedFalse(id)), HttpStatus.OK);
+		DoctorResponseDto doctorResponseDto ;
+		Map<Long, DoctorResponseDto> doctorCacheMap = hazelcastInstance.getMap("doctorCache");
+		if (!doctorCacheMap.containsKey(id)) {
+			doctorResponseDto = doctorMapper.toDto(doctorService.findByIdAndDeletedFalse(id));
+			doctorCacheMap.put(id, doctorResponseDto);
+		}else {
+			doctorResponseDto = doctorCacheMap.get(id);
+		}
+		return new ResponseEntity<DoctorResponseDto>(doctorResponseDto, HttpStatus.OK);
 	}
 
 
 	// -------------------Create a  Doctor-------------------------------------------
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DoctorResponseDto> createDoctor(@RequestBody DoctorRequestDto doctorRequestDTO) {
-		return new ResponseEntity<DoctorResponseDto>(doctorMapper.toDto(doctorService.save(doctorRequestDTO)), HttpStatus.CREATED);
+		DoctorResponseDto doctorResponseDto = doctorMapper.toDto(doctorService.save(doctorRequestDTO));
+		hazelcastInstance.getMap("doctorCache").put(doctorResponseDto.getId(), doctorResponseDto);
+		return new ResponseEntity<DoctorResponseDto>(doctorResponseDto, HttpStatus.CREATED);
 	}
 
 	// ------------------- Update a Doctor ---------------------------
 
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateDoctor(
-             @PathVariable("id") long id,
-            @RequestBody DoctorRequestDto doctorRequestDTO) {
-        return new ResponseEntity<DoctorResponseDto>(doctorMapper.toDto(doctorService.update(doctorRequestDTO)), HttpStatus.OK);
+			@RequestBody DoctorRequestDto doctorRequestDTO) {
+		DoctorResponseDto doctorResponseDto = doctorMapper.toDto(doctorService.update(doctorRequestDTO)) ;
+		hazelcastInstance.getMap("doctorCache").put(doctorResponseDto.getId(), doctorResponseDto);
+
+		return new ResponseEntity<DoctorResponseDto>(doctorResponseDto, HttpStatus.OK);
 	}
+
+	// ------------------- Delete a  Doctor-----------------------------------------
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> deleteDoctor(@PathVariable("id") long id) {
+		doctorService.delete(id);
+		hazelcastInstance.getMap("doctorCache").remove(id);
+		return new ResponseEntity<ProfessionResponseDto>(HttpStatus.OK);
+	}
+
 }
