@@ -1,13 +1,11 @@
-package com.example.mapstruct.entity;
+package com.example.hazelcast.entity;
 
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table

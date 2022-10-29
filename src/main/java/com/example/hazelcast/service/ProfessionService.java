@@ -1,9 +1,9 @@
-package com.example.mapstruct.service;
+package com.example.hazelcast.service;
 
-import com.example.mapstruct.dto.ProfessionRequestDto;
-import com.example.mapstruct.entity.Profession;
-import com.example.mapstruct.mapper.ProfessionMapper;
-import com.example.mapstruct.repository.ProfessionRepository;
+import com.example.hazelcast.dto.ProfessionRequestDto;
+import com.example.hazelcast.entity.Profession;
+import com.example.hazelcast.mapper.ProfessionMapper;
+import com.example.hazelcast.repository.ProfessionRepository;
 import lombok.AllArgsConstructor;
 import lombok.var;
 import org.springframework.data.domain.Page;

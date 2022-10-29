@@ -1,6 +1,5 @@
-package com.example.mapstruct.dto;
+package com.example.hazelcast.dto;
 
-import com.example.mapstruct.entity.Profession;
 import lombok.Getter;
 import lombok.Setter;
 

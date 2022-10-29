@@ -1,4 +1,4 @@
-package com.example.mapstruct.dto;
+package com.example.hazelcast.dto;
 
 import lombok.Getter;
 import lombok.Setter;

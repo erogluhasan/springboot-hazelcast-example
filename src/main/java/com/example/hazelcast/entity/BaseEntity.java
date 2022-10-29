@@ -1,4 +1,4 @@
-package com.example.mapstruct.entity;
+package com.example.hazelcast.entity;
 
 import lombok.*;
 

@@ -1,8 +1,7 @@
-package com.example.mapstruct.repository;
+package com.example.hazelcast.repository;
 
-import com.example.mapstruct.entity.Doctor;
+import com.example.hazelcast.entity.Doctor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;

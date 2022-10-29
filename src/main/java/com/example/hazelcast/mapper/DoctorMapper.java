@@ -1,11 +1,10 @@
-package com.example.mapstruct.mapper;
+package com.example.hazelcast.mapper;
 
 
-import com.example.mapstruct.dto.DoctorRequestDto;
-import com.example.mapstruct.dto.DoctorResponseDto;
-import com.example.mapstruct.dto.ProfessionRequestDto;
-import com.example.mapstruct.entity.Doctor;
-import com.example.mapstruct.entity.Profession;
+import com.example.hazelcast.dto.DoctorRequestDto;
+import com.example.hazelcast.dto.DoctorResponseDto;
+import com.example.hazelcast.entity.Doctor;
+import com.example.hazelcast.entity.Profession;
 import org.mapstruct.*;
 
 import java.util.List;

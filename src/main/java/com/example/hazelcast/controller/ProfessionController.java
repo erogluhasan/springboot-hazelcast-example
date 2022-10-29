@@ -1,9 +1,9 @@
-package com.example.mapstruct.controller;
+package com.example.hazelcast.controller;
 
-import com.example.mapstruct.dto.ProfessionRequestDto;
-import com.example.mapstruct.dto.ProfessionResponseDto;
-import com.example.mapstruct.mapper.ProfessionMapper;
-import com.example.mapstruct.service.ProfessionService;
+import com.example.hazelcast.dto.ProfessionRequestDto;
+import com.example.hazelcast.dto.ProfessionResponseDto;
+import com.example.hazelcast.mapper.ProfessionMapper;
+import com.example.hazelcast.service.ProfessionService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.example.mapstruct.config;
+package com.example.hazelcast.config;
 
 
 import com.hazelcast.config.Config;

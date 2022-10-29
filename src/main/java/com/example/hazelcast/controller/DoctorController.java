@@ -1,10 +1,10 @@
-package com.example.mapstruct.controller;
+package com.example.hazelcast.controller;
 
-import com.example.mapstruct.dto.DoctorRequestDto;
-import com.example.mapstruct.dto.DoctorResponseDto;
-import com.example.mapstruct.dto.ProfessionResponseDto;
-import com.example.mapstruct.mapper.DoctorMapper;
-import com.example.mapstruct.service.DoctorService;
+import com.example.hazelcast.dto.DoctorRequestDto;
+import com.example.hazelcast.dto.DoctorResponseDto;
+import com.example.hazelcast.dto.ProfessionResponseDto;
+import com.example.hazelcast.mapper.DoctorMapper;
+import com.example.hazelcast.service.DoctorService;
 import com.hazelcast.core.HazelcastInstance;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;

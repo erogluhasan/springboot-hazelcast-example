@@ -1,14 +1,12 @@
-package com.example.mapstruct.service;
+package com.example.hazelcast.service;
 
-import com.example.mapstruct.dto.DoctorRequestDto;
-import com.example.mapstruct.entity.Doctor;
-import com.example.mapstruct.entity.Profession;
-import com.example.mapstruct.mapper.DoctorMapper;
-import com.example.mapstruct.repository.DoctorRepository;
+import com.example.hazelcast.dto.DoctorRequestDto;
+import com.example.hazelcast.entity.Doctor;
+import com.example.hazelcast.mapper.DoctorMapper;
+import com.example.hazelcast.repository.DoctorRepository;
 import lombok.AllArgsConstructor;
 import lombok.var;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor

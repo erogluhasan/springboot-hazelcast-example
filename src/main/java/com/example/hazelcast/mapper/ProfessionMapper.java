@@ -1,9 +1,9 @@
-package com.example.mapstruct.mapper;
+package com.example.hazelcast.mapper;
 
 
-import com.example.mapstruct.dto.ProfessionRequestDto;
-import com.example.mapstruct.dto.ProfessionResponseDto;
-import com.example.mapstruct.entity.Profession;
+import com.example.hazelcast.dto.ProfessionRequestDto;
+import com.example.hazelcast.dto.ProfessionResponseDto;
+import com.example.hazelcast.entity.Profession;
 import org.mapstruct.*;
 
 import java.util.List;
