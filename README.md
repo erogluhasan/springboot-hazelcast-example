@@ -119,6 +119,12 @@ java -Dserver.port=8083 -jar springboot-hazelcast-example-0.0.1-SNAPSHOT.jar
 ```
 Uygulamalar ayağa kalktığında aşağıdaki gibi 3 tane ayrı ayrı instanceler oluştuğunu görmüş olduk
 
+![](https://github.com/erogluhasan/springboot-hazelcast-example/blob/master/src/main/resources/1.png?raw=true)
+
+![](https://github.com/erogluhasan/springboot-hazelcast-example/blob/master/src/main/resources/2.png?raw=true)
+
+![](https://github.com/erogluhasan/springboot-hazelcast-example/blob/master/src/main/resources/3.png?raw=true)
+
 Uygulamanın tüm kodlarına şuradan ulaşabilirsiniz: [Github](https://github.com/erogluhasan/springboot-hazelcast-example)
 
  
